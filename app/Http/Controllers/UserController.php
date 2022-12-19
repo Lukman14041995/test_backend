@@ -16,11 +16,7 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        $user = DB::table('users')
-        ->select('birth_date','name','birth_place', DB::raw('count(*) as total'))
-        ->groupBy('birth_date','name','birth_place')
-        ->get();
-        dd($user);
+        $user = User::all();
         return view('users.index', compact('user'));
     }
 

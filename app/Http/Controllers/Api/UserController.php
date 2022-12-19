@@ -14,10 +14,24 @@ class UserController extends Controller
     {
         //get posts
         $user = DB::table('users')
-        ->select('birth_place')
-        ->selectRaw('count(birth_place) as jumlah_data_user')
-        ->groupBy('birth_place')
-        ->get();
+            ->select('birth_place')
+            ->selectRaw('count(birth_place) as jumlah_data_user')
+            ->groupBy('birth_place')
+            ->get();
+
+            $output = [];
+
+            foreach ($user as $place) {
+            $users = DB::table('users')
+                ->where('birth_place', $place->birth_place)
+                ->get();
+
+            $output[] = [
+                'birth_place' => $place->birth_place,
+                'jumlah_data_user' => $place->jumlah_data_user,
+                'users' => $users,
+            ];
+    }
         
 
         //return collection of posts as a resource
